@@ -1,5 +1,5 @@
 ---
-title: "plotlysubmission"
+title: "Plotly Example"
 author: "Alejandro Borges Sanchez"
 date: "6/22/2021"
 output: ioslides_presentation
@@ -15,22 +15,28 @@ library(gapminder)
 ## Plotly
 ### Classic gapminder
 
-```{r fig.cap="Code in the next page"}
+```{r fig.cap="Life expectancy is the size of points"}
 gapminder%>%
     group_by(year,continent)%>%
-    summarize(across(c(pop,lifeExp,gdpPercap),~sum(.x,na.rm=TRUE)),.groups = "drop")%>%
-    plotly::plot_ly(x=~pop,y=~lifeExp,size=~gdpPercap,color=~continent,frame = ~year,
+    summarize(across(c(pop,lifeExp,gdpPercap),~mean(.x,na.rm=TRUE)),.groups = "drop")%>%
+    plotly::plot_ly(x=~pop,y=~gdpPercap,size=~lifeExp,color=~continent,frame = ~year,
                     type="scatter",mode="markers")
 ```
+Code is in the next page
 
 ## Code
 ```{r echo = TRUE, eval=FALSE}
 gapminder%>%
     group_by(year,continent)%>%
     summarize(across(c(pop,lifeExp,gdpPercap),
-                     ~sum(.x,na.rm=TRUE)),
+                     ~mean(.x,na.rm=TRUE)),
               .groups = "drop")%>%
-    plotly::plot_ly(x=~pop,y=~lifeExp,size=~gdpPercap,color=~continent,frame = ~year,
-                    type="scatter",mode="markers")
+    plotly::plot_ly(x=~pop,
+                    y=~gdpPercap,
+                    size=~lifeExp,
+                    color=~continent,
+                    frame = ~year,
+                    type="scatter",
+                    mode="markers")
 ```
 
